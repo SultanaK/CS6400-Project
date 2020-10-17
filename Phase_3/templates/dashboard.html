@@ -1,0 +1,162 @@
+{%extends "layout.html" %}
+
+{% block content%}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='volunteer_lookup.css') }}">
+
+  <body>
+    <div class="container" >
+
+        <div class="vertical-menu" style="position:absolute;">
+            {% if diff > 0 %}
+            <a href = "/addDog"> Add Dog </a>
+            {% endif %}
+            <a href = "/searchApplicant"> Add Adoption Application </a>
+            {% if email == 'mo@burdell.com'%}
+            <a href = "/review_application"> Review Adoption Application </a>
+            <a href = "/reports"> Reports </a>
+            {% endif %}
+            <a href={{url_for('index')}} class="active">Logout</a>
+        </div>
+
+
+        <center> <h1>Dog Dashboard</h1> </center>
+         <center><table class="blueTable">
+            <thead>
+            <tr>
+            <th>Number of Available Spaces</th>
+            </tr>
+            <tr>
+              <td>{{diff}}</td>
+            </tr>
+          </table></center>
+
+            <p></p>
+
+            <center>
+             <!--  <input type="text" id="myInput" onkeyup="myFunction()" placeholder="Filter by Adoption Status"> -->
+              <h3>Filter by Adoptability Status</h3> Adoptable?
+              <select id="mylist" onchange="myFunction()" class='form-control'>
+                  <option value=""> -- Select Filter Value (default: all) -- </option>
+                  <option>Yes</option>
+                  <option>No</option>
+              </select>
+            </center>
+
+
+            <p></p>
+
+            <center><table class="myTable" id="myTable">
+            <thead>
+            <tr>
+            <th onclick="sortTable('myTable',0)">Dog ID</th>
+            <th onclick="sortTable('myTable',1)">Name</th>
+            <th onclick="sortTable('myTable',2)">Age</th>
+            <th onclick="sortTable('myTable',3)">Sex</th>
+            <th onclick="sortTable('myTable',4)">Alteration Status</th>
+            <th onclick="sortTable('myTable',5)">Adoptable</th>
+            <th onclick="sortTable('myTable',6)">Breed</th>
+            <th onclick="sortTable('myTable',7)">Surrender Date</th>
+            <th> Link</th>
+            </tr>
+            {% for row in dogDetails %}
+            <tr>
+            {% for d in row %}
+            <td>{{d}}</td>
+            {% endfor %}
+            <td><a href="/viewDogDetails/{{row[0]}}"> View Dog Detials </a></td>
+            </tr>
+            {% endfor %}
+
+            <script type="text/javascript">
+                function sortTable(tableClass, n) {
+                var table, rows, switching, i, x, y, shouldSwitch, dir, switchcount = 0;
+
+                table = document.getElementsByClassName(tableClass)[0];
+                switching = true;
+                dir = "asc";
+                while (switching) {
+                    switching = false;
+                    rows = table.getElementsByTagName("TR");
+                    for (i = 1; i < (rows.length - 1); i++) {
+                        shouldSwitch = false;
+                        x = rows[i].getElementsByTagName("TD")[n];
+                        y = rows[i + 1].getElementsByTagName("TD")[n];
+                                var cmpX=isNaN(parseInt(x.innerHTML))?x.innerHTML.toLowerCase():parseInt(x.innerHTML);
+                                var cmpY=isNaN(parseInt(y.innerHTML))?y.innerHTML.toLowerCase():parseInt(y.innerHTML);
+                cmpX=(cmpX=='-')?0:cmpX;
+                cmpY=(cmpY=='-')?0:cmpY;
+                        if (dir == "asc") {
+                            if (cmpX > cmpY) {
+                                shouldSwitch= true;
+                                break;
+                            }
+                        } else if (dir == "desc") {
+                            if (cmpX < cmpY) {
+                                shouldSwitch= true;
+                                break;
+                            }
+                        }
+                    }
+                    if (shouldSwitch) {
+                        rows[i].parentNode.insertBefore(rows[i + 1], rows[i]);
+                        switching = true;
+                        switchcount ++;
+                    } else {
+                        if (switchcount == 0 && dir == "asc") {
+                            dir = "desc";
+                            switching = true;
+                        }
+                    }
+                }
+                }
+
+                function myFunction() {
+                  var input, filter, table, tr, td, i;
+                  input = document.getElementById("mylist");
+                  filter = input.value.toUpperCase();
+                  table = document.getElementById("myTable");
+                  tr = table.getElementsByTagName("tr");
+                  for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[5];
+                    if (td) {
+                      if (td.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                      } else {
+                        tr[i].style.display = "none";
+                      }
+                    }
+                  }
+                }
+
+                /*function myFunction() {
+                  // Declare variables
+                  var input, filter, table, tr, td, i, txtValue;
+                  input = document.getElementById("myInput");
+                  filter = input.value.toUpperCase();
+                  table = document.getElementById("myTable");
+                  tr = table.getElementsByTagName("tr");
+
+                  // Loop through all table rows, and hide those who don't match the search query
+                  for (i = 0; i < tr.length; i++) {
+                    td = tr[i].getElementsByTagName("td")[5];
+                    if (td) {
+                      txtValue = td.textContent || td.innerText;
+                      if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                      } else {
+                        tr[i].style.display = "none";
+                      }
+                    }
+                  }
+                }*/
+              </script>
+          </thead>
+        </table>
+      </center>
+
+
+  </div>
+</body>
+    {% endblock content%}

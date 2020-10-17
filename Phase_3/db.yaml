@@ -1,0 +1,4 @@
+mysql_host : 'localhost'
+mysql_user : 'dbo'
+mysql_password : 'password'
+mysql_db : 'cs6400_su20_team08'

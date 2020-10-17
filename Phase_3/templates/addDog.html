@@ -1,0 +1,44 @@
+{%extends "layout.html" %}
+
+{% block content%}
+    <div style="height:560px; width:400px;margin: auto auto; background-color:LAVENDER;border-radius: 16px; text-align: left;">
+        <center><h1 style="padding-top: 20px;">Add Dog</h1></center>
+        <div class="content-section">
+        {% from "_formhelpers.html" import render_field %}
+        <form method="post" action="">
+            <dl style="padding-left: 80px;">
+                {{ render_field(form.name) }}
+                {{ render_field(form.breed_name) }}
+                {{ render_field(form.sex) }}
+                {{ render_field(form.alteration_status) }}
+                <!-- {{ render_field(form.age) }} -->
+                <label for="age">Age</label>
+                <input type="number" id="age" name="age" min="1" max="360" required>
+                <span class="validity"></span>
+                {{ render_field(form.description) }}
+                {{ render_field(form.microchipID) }}
+                <!-- {{ render_field(form.surrender_date) }} -->
+                <label for="surrender_date">Surrender Date</label>
+                <input type="date" id="surrender_date" name="surrender_date" required>
+                <span class="validity"></span>
+                {{ render_field(form.reason) }}
+                {{ render_field(form.animal_control) }}
+            </dl>
+            <center><div class = "form-group">
+                {{form.submit(class="btn btn-outline-info")}}            
+            </div></center>
+        </form>
+        </div>
+    </div>
+
+        <center><table>
+            <tr>
+            <td>
+            <div style="width: 350px; margin-top:10px; text-align: center; border:groove;background-color:LAWNGREEN;border-radius: 16px;">
+              <h2><a href={{url_for('viewDogDashBoard')}}>Go Back to Dog Dashboard</a></h2>
+            </div>
+            </td>
+            </tr>
+        </table></center>
+{% endblock content%}
+

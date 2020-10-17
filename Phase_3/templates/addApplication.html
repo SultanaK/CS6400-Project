@@ -1,0 +1,32 @@
+{%extends "layout.html" %}
+
+{% block content%}
+    <div style="height:290px; width:450px;margin: auto auto; background-color:moccasin;border-radius: 16px; text-align: left;">
+        <center><h1 style="padding-top: 20px;">Add Adoption Application</h1></center>
+        <div class="content-section">
+            {% from "_formhelpers.html" import render_field %}
+            <form method="post" action="">
+                <dl  style="padding-left: 110px;">
+                    <!-- {{ render_field(form.date) }} -->
+                    <label for="date">Date</label>
+                    <input type="date" id="date" name="date" required>
+                    <span class="validity"></span>
+                    {{ render_field(form.co_applicant_last_name) }}
+                    {{ render_field(form.co_applicant_first_name) }}
+                </dl>
+                <center><div class = "form-group" style="padding-top: 20px;">
+                    {{form.submit(class="btn btn-outline-info")}}
+                </div></center>
+            </form>
+        </div>
+ </div>
+        <center><table>
+            <tr>
+            <td>
+            <div style="width: 350px; margin-top:25px; text-align: center; border:groove;background-color:chartreuse;border-radius: 16px;">
+              <h2><a href={{url_for('viewDogDashBoard')}}>Go Back to Dog Dashboard</a></h2>
+            </div>
+            </td>
+            </tr>
+        </table></center>
+{% endblock content%}

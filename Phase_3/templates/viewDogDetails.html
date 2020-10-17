@@ -1,0 +1,266 @@
+<html>
+<head>
+    <title>View Dog Details</title>
+
+    <style>
+      .mytable  {border-collapse: collapse; width:90%}
+      .mytable th {border: 1px solid black; padding-right: 3px; padding-left: 3px;}
+      .mytable td {border: 1px solid black; padding-right: 3px; padding-left: 3px;}
+      .left th {text-align:left;}
+      .left td {text-align:left;}
+    </style>
+</head>
+ <center><h1 style="color:Tomato;">{{msg}}</h1></center>
+<body>
+<div style="height:630px; width:1200px;">
+
+    <div style="width:52%;height:540px; overflow:auto;display: inline-block; float:left;
+    margin-right: 10px; background-color:MEDIUMTURQUOISE;border-radius: 16px;">
+
+        <center><h1>Dog Details</h1></center>
+
+              {% for item in dog_details %}
+            <center>
+              <table class="left" >
+                <tr>
+                <th> </th>
+                <td></td>
+                <td style="color:white;"> Edit dog attribute if it is editable</td>
+                </tr>
+
+                <tr>
+                <th> Dog ID:</th>
+                <td>{{item[0]}}</td>
+                </tr>
+
+                <tr>
+                <th> Micropchip ID:</th>
+                  <td>{{dog_microchip}}</td>
+                  {% if dog_microchip != 'Not Present' %}
+                  <td></td>
+                  {%else%}
+                  <td>
+                    <form class="example" method="POST" action="/viewDogDetails/{{dogID}}"  style="margin:auto;max-width:600px">
+                            <input name="microchip_id" type="text" placeholder="Enter Microchip ID Here">
+                            <button type="submit" value="Submit">Submit</button>
+                    </form>
+                  </td>
+                  {%endif%}
+
+                </tr>
+
+                <tr>
+                <th> Description:</th>
+                  <td>{{item[1]}}</td>
+                </tr>
+
+                <tr>
+                <th> Name:</th>
+                  <td>{{item[2]}}</td>
+                </tr>
+
+                <tr>
+                <th> Age in Months:</th>
+                  <td>{{item[3]}}</td>
+                </tr>
+
+
+                <tr>
+                <th> Sex:</th>
+                  <td>{{item[4]}}</td>
+                  {% if item[4] == 'unknown' %}
+                  <td>
+                    <form class="example" method="POST" action="/viewDogDetails/{{dogID}}">
+                      <select id="gender" name="gender">
+                        <option value="female">Female</option>
+                        <option value="male">Male</option>
+                      </select>
+                      <input type="submit">
+                    </form>
+                  </td>
+                  {% elif item[4] == 'Unknown' %}
+                  <td>
+                    <!-- <form class="example" method="POST" action="/viewDogDetails/{{dogID}}"  style="margin:auto;max-width:800px">
+                            <input name="gender" type="text" placeholder="Update Gender Here">
+                            <button type="submit" value="Submit">Submit</button>
+                    </form> -->
+                    <form class="example" method="POST" action="/viewDogDetails/{{dogID}}">
+                      <select id="gender" name="gender">
+                        <option value="female">Female</option>
+                        <option value="male">Male</option>
+                      </select>
+                      <input type="submit">
+                    </form>
+
+
+                  </td>
+                  {%else%}
+                  <td></td>
+                  {%endif%}
+                </tr>
+
+                <tr>
+                <th>Alteration Status:</th>
+                  <td>{{item[5]}}</td>
+                  {% if item[5] == 'unaltered' %}
+                  <td>
+                    <form class="example" method="POST" action="/viewDogDetails/{{dogID}}">
+                      <select id="alterationstatus" name="alterationstatus">
+                        <option value="altered">Altered</option>
+                      </select>
+                      <input type="submit">
+                    </form>
+                  </td>
+                  {% elif item[5] == 'Unaltered' %}
+                  <td>
+                    <form class="example" method="POST" action="/viewDogDetails/{{dogID}}">
+                      <select id="alterationstatus" name="alterationstatus">
+                        <option value="altered">Altered</option>
+                      </select>
+                      <input type="submit">
+                    </form>
+                  </td>
+                  {%else%}
+                  <td></td>
+                  {%endif%}
+                </tr>
+
+                <tr>
+                <th> Adoptable:</th>
+                  <td>{{item[6]}}</td>
+                  {% if item[6] != 'no' %}
+                  <td></td>
+                  {%else%}
+                  <td>
+                    <!-- <form class="example" method="POST" action="/viewDogDetails/{{dogID}}"  style="margin:auto;max-width:600px">
+                            <input name="adoptionstatus" type="text" >
+                            <button type="submit" value="Submit">Submit</button>
+                    </form> -->
+                  </td>
+                  {%endif%}
+                </tr>
+
+                <tr>
+                <th> Breed:</th>
+                <td>{{dog_breed_name}}</td>
+                {% if dog_breed_name == 'Mixed' %}
+                <td>
+                  {% from "_formhelpers.html" import render_field %}
+                  <form method="post" action="">
+                  <dl>
+                    {{ render_field(form.breed_name) }}
+                  </dl>
+                <div class = "form-group">
+                    {{form.submit(class="btn btn-outline-info")}}
+                </div>
+            </form>
+                  <!-- <form class="example" method="POST" action="/viewDogDetails/{{dogID}}"  style="margin:auto;max-width:600px">
+                          <input name="breed" type="text" >
+                          <button type="submit" value="Submit">Submit</button>
+                  </form> -->
+
+                </td>
+                {% elif dog_breed_name == 'Unknown' %}
+                <td>
+                  {% from "_formhelpers.html" import render_field %}
+                  <form method="post" action="">
+                  <dl>
+                    {{ render_field(form.breed_name) }}
+                  </dl>
+                <div class = "form-group">
+                    {{form.submit(class="btn btn-outline-info")}}
+                </div>
+            </form>
+                </td>
+                {%else%}
+                <td></td>
+                {%endif%}
+            </tr>
+
+                        <tr>
+            <th>Surrender Date:</th>
+              <td>{{surrender_details[0][0]}}</td>
+            </tr>
+
+            <tr>
+            <th>Surrender Reason:</th>
+              <td>{{surrender_details[0][1]}}</td>
+            </tr>
+
+            <tr>
+            <th>Animal Control:</th>
+            {% if surrender_details[0][2] == 1 %}
+            <td>Yes</td>
+            {%else%}
+            <td>No</td>
+
+              {%endif%}
+            </tr>
+
+            </table></center>
+            {% endfor %}
+    </div>
+
+
+    <div style="width: 47%; height:540px; overflow: auto;display: inline-block; background-color:wheat;border-radius: 16px;">
+    <center><h1>Expense Details</h1></center>
+       <center> <table class="mytable" id="table" border="1">
+          <thead>
+          <tr>
+              <th>Date</th>
+              <th>Description</th>
+              <th>Amount</th>
+              <th>Vendor Name</th>
+          </tr>
+          </thead>
+          <tbody>
+              {% for item in expenses_details %}
+                  <tr>
+                      <td>{{item[0]}}</td>
+                      <td>{{item[1]}}</td>
+                      <td style="text-align:right">{{ "%.2f"|format(item[2]) }}</td>
+                      <td>{{item[3]}}</td>
+                  </tr>
+              {% endfor %}
+          </tbody>
+        </table></center>
+        <span id="val"></span>
+        <script language="javascript" type="text/javascript">
+        var table = document.getElementById("table"), sumVal = 0;
+
+         for(var i = 1; i < table.rows.length; i++)
+         {
+             sumVal = sumVal + parseFloat(table.rows[i].cells[2].innerHTML);
+         }
+
+         document.getElementById("val").innerHTML = "<h4 style='padding-left: 30px;'>Total Expenses: $" + sumVal.toFixed(2) + "</h4>";
+<!--         console.log(sumVal);-->
+        </script>
+    </div>
+
+
+
+ {% for item in dog_details %}
+  <div style="width: 270px; margin-top:20px; float:left; text-align: center; border-style: groove;background-color:gold;border-radius: 16px;">
+    {% if email == 'mo@burdell.com'%}
+    {% if item[5]|lower == 'altered'%}
+    {% if dog_microchip != 'Not Present' %}
+    <h2><a href="/addAdoption/{{item[0]}}">Add Adoption</a></h2>
+    {% endif %}
+    {% endif %}
+    {% endif %}
+  </div>
+
+  <div style="width: 270px;margin-top:20px;  float:right; text-align: center; border-style: groove;;background-color:gold;border-radius: 16px;">
+    <h2><a href="/addExpenses/{{item[0]}}">Add Expenses</a></h2>
+  </div>
+ {% endfor %}
+
+
+  <div style="width: 330px; margin: 20 auto auto auto;text-align: center;border-style: groove;background-color:SPRINGGREEN;border-radius: 16px;">
+    <h2><a href={{url_for('viewDogDashBoard')}}>Go Back to Dog Dashboard</a></h2>
+  </div>
+
+</div>
+</body>
+</html>

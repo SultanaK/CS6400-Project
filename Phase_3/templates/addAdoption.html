@@ -1,0 +1,164 @@
+<html>
+  <head>
+    <title>Add Adoption</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='add_adoption.css') }}">
+  </head>
+
+  <body>
+
+  <h1><center>Add Adoption</center></h1>
+
+  <form class="example" name='addAdoption' method="post" action=""  style="margin:auto;max-width:1100px" >
+
+<!--------------  Section 1 Search Application ---------------------->
+
+        <table>
+        <tbody>
+        <tr>
+        <td>
+
+            <input type="text" placeholder="Enter applicant's or co-applicant's last name" name="ApplicantName">
+
+            <button type="submit" name="action" value="search_applicant"><i class="fa fa-search"></i></button>
+
+        <!--------------  Section 2 select Application ---------------------->
+
+            <center><table class="search_results">
+                <thead>
+                <tr >
+                    <th>Last Name</th>
+                    <th>First Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Street</th>
+                    <th>City</th>
+                    <th>Zip Code</th>
+                    <th>State</th>
+                    <th>Co-application Last Name</th>
+                    <th>Co-application First Name</th>
+                    <th> </th>
+                </tr>
+                </thead>
+                <tbody>
+                    {% for row in data %}
+                        <tr>
+                            <td>{{row[0]}}</td>
+                            <td>{{row[1]}}</td>
+                            <td>{{row[2]}}</td>
+                            <td>{{row[3]}}</td>
+                            <td>{{row[4]}}</td>
+                            <td>{{row[5]}}</td>
+                            <td>{{row[6]}}</td>
+                            <td>{{row[7]}}</td>
+                            <td>{{row[8]}}</td>
+                            <td>{{row[9]}}</td>
+                            <td> <input type="radio" id="search" name="bt_search" value="{{row[3]}}" checked> </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+              </table></center>
+              <center><h1 style="color:Tomato;">{{msg}}</h1></center>
+
+              <div style=" width: 600px; float: right;">
+                  {% if data|length > 0 %}
+                  <button class="button_submit" type="submit" name="action" value="select_applicant">Submit</button>
+                  {% endif %}
+              </div>
+
+          </td>
+        </tr>
+        <!--------------  Section 3 Submit Adoption ---------------------->
+        <tr>
+        <td>
+            <h3>Most recent adoption application</h3>
+        </td>
+        </tr>
+
+        <tr>
+        <td>
+            <center><table class="search_results">
+            <thead>
+            <tr >
+                <th>Application Number</th>
+                <th>Email</th>
+                <th>Date</th>
+                <th>Co-applicant First Name</th>
+                <th>Co-applicant Last Name</th>
+                <th>Status</th>
+                <th> </th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for row in info %}
+                    <tr>
+                        <td>{{row[0]}}</td>
+                        <td>{{row[1]}}</td>
+                        <td>{{row[2]}}</td>
+                        <td>{{row[3]}}</td>
+                        <td>{{row[4]}}</td>
+                        <td>{{row[5]}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+          </table></center>
+          <center><h1 style="color:Tomato;">{{msg2}}</h1></center>
+        </td>
+        </tr>
+
+        <tr>
+        <td>
+            <h3>Adoption Fee: {{fees_formatted}} </h3>
+        </td>
+        </tr>
+
+        <tr>
+        <td>
+            {% for row in info %}
+            <input type="hidden" id="applicationID" name="applicationID" value="{{row[0]}}">
+            {% endfor %}
+
+            <input type="hidden" id="fee" name="fee" value="{{fees_formatted}}">
+
+            <div style="margin: auto auto;">
+                <h3><label for="adoption_date">Enter adoption date:</label></h3>
+                <input type="date" id="adoption_date" name="enter_date" />
+            </div>
+
+            <script type="text/javascript">
+                var date = new Date();
+                var day = date.getDate();
+                var month = date.getMonth() + 1;
+                var year = date.getFullYear();
+                if (month < 10) month = "0" + month;
+                if (day < 10) day = "0" + day;
+                var today = year + "-" + month + "-" + day;
+                document.getElementById('adoption_date').value = today;
+            </script>
+
+            <div style="margin-top: 30px;">
+               {% if info|length > 0 %}
+               <button class="button_submit" type="submit" name="action" value="submit_adoption">Save</button>
+               {% endif %}
+            </div>
+
+            <center><h1 style="color:Tomato;">{{msg3}}</h1></center>
+        </td>
+        </tr>
+
+        <tr>
+        <td>
+            <div style="width: 350px; margin: 30 auto; text-align: center; border:groove;background-color: lightgreen;border-radius: 16px;">
+              <h2><a href={{url_for('viewDogDashBoard')}}>Go Back to Dog Dashboard</a></h2>
+            </div>
+        </td>
+        </tr>
+
+        </tbody>
+        </table>
+
+  </form>
+
+  </body>
+</html>

@@ -1,0 +1,48 @@
+<html>
+  <head>
+    <title>Volunteer Lookup</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='volunteer_lookup.css') }}">
+  </head>
+
+  <body>
+
+  <div style="width: 250px; position: absolute; text-align: center; border:groove; background-color: lightgreen;border-radius: 16px;">
+      <h2><a href={{url_for('reports')}}>Go Back to Reports</a></h2>
+  </div>
+
+  <h1><center>Volunteer Lookup</center></h1>
+
+  <form class="example" method="post" action="/report_volunteer_lookup"  style="margin:auto;max-width:600px">
+            <input type="text" placeholder="Search volunteers by first name or last name" name="VName">
+            <button type="submit"><i class="fa fa-search"></i></button>
+  </form>
+
+   <center><table>
+        <thead>
+        <tr>
+            <th>First Name</th>
+            <th>Last Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Start Date</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for row in data %}
+                <tr>
+                    <td>{{row[0]}}</td>
+                    <td>{{row[1]}}</td>
+                    <td>{{row[2]}}</td>
+                    <td>{{row[3]}}</td>
+                    <td>{{row[4]}}</td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table></center>
+
+      <center><h1 style="color:Tomato;">{{msg}}</h1></center>
+
+  </body>
+</html>

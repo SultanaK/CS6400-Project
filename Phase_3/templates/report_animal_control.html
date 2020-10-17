@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<meta charset="utf-8">
+
+  <head>
+    <title> Animal Control Report </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='animal_control_report.css') }}">
+  </head>
+
+  <body>
+
+  <div style="width: 250px; position: absolute; text-align: center; border:groove; background-color: lightgreen;border-radius: 16px;">
+      <h2><a href={{url_for('reports')}}>Go Back to Reports</a></h2>
+  </div>
+
+  <h1><center>Animal Control Report</center></h1>
+
+  <h2><center>Monthly Summary</center></h2>
+  <div id="table1" style="width: 1000px; margin-left:auto;margin-right:auto;margin-top:35px;"></div>
+
+  <h2><center>Drill Down Details</center></h2>
+  <h3 id="myHeader"><center></center></h3>
+  <div id="table2" style="width: 1000px; margin-left:auto;margin-right:auto;margin-top:35px;"></div>
+
+  <script type="text/javascript" src="http://d3js.org/d3.v3.min.js"></script>
+
+    <script type="text/javascript">
+
+    function tabulate(data, columns, id) {
+        var table = d3.select(id).append("table"),
+            thead = table.append("thead"),
+            tbody = table.append("tbody");
+
+        // append the header row
+        thead.append("tr")
+            .selectAll("th")
+            .data(columns)
+            .enter()
+            .append("th")
+            .attr("class", "temp")
+            .text(function(column) { return column; });
+
+        // create a row for each object in the data
+        var rows = tbody.selectAll("tr")
+            .data(data)
+            .enter()
+            .append("tr")
+            .attr("class", "temp");
+
+        // create a cell in each row for each column
+        // At this point, the rows have data associated.
+        // So the data function accesses it.
+        var cells = rows.selectAll("td")
+            .data(function(row) {
+                // he does it this way to guarantee you only use the
+                // values for the columns you provide.
+                return columns.map(function(column) {
+                    // return a new object with a value set to the row's column value.
+                    return {value: row[column]};
+                });
+            })
+            .enter()
+            .append("td")
+            .attr("class", "temp")
+            .text(function(d) { return d.value; })
+        return table;
+    }
+
+
+    function summarytabulate(data, columns, id, id2, details_data, detail_columns) {
+        var table = d3.select(id).append("table"),
+            thead = table.append("thead"),
+            tbody = table.append("tbody");
+
+        // append the header row
+        thead.append("tr")
+            .selectAll("th")
+            .data(columns)
+            .enter()
+            .append("th")
+            .text(function(column) { return column; });
+
+        // create a row for each object in the data
+        var rows = tbody.selectAll("tr")
+            .data(data)
+            .enter()
+            .append("tr");
+
+        // create a cell in each row for each column
+        // At this point, the rows have data associated.
+        // So the data function accesses it.
+        var cells = rows.selectAll("td")
+            .data(function(row) {
+                // he does it this way to guarantee you only use the
+                // values for the columns you provide.
+                return columns.map(function(column) {
+                    // return a new object with a value set to the row's column value.
+                    return {column: column, value: row[column], month: row['Month']};
+                });
+            })
+            .enter()
+            .append("td")
+            .text(function(d) { return d.value; })
+            .on("click", function(d) {
+                d3.selectAll('.temp').remove();
+                if (d.value== 0) {
+                    // remove title/header
+                    myHeader.innerText = "";
+                    myHeader.style.textAlign = "center";
+                    // do nothing
+                }
+                else if (d.column== "Month") {
+                    // remove title/header
+                    myHeader.innerText = "";
+                    myHeader.style.textAlign = "center";
+                    // do nothing
+                }
+                else {
+                    if (d.column== "Number Animal Control Dogs") {
+                        var type = "detail_data1"
+                        var title = "Animal Control Dogs"
+                    } else {
+                        var type = "detail_data2"
+                        var title = "Adopted Dogs In Shelter For 60 Days"
+                    }
+                // update title/header
+                myHeader.innerText = d.month + " " + title;
+                myHeader.style.textAlign = "center";
+                // add table
+                var detailTable = tabulate(details_data[type][d.month], detail_columns[type], id2);
+
+                }
+
+               });
+        return table;
+    }
+
+    var summary_data = {{ output_data.summary | safe }}
+    var summary_columns = ["Month", "Number Animal Control Dogs", "Number Adopted Dogs In Shelter For 60 Days", "Total Expense By Adopted Dogs In Shelter For 60 Days"]
+
+    var detail_data1 = {{ output_data.detail1 | safe }}
+    var detail_data2 = {{ output_data.detail2 | safe }}
+
+    var details = {"detail_data1": detail_data1, "detail_data2": detail_data2}
+    var detail_columns = {"detail_data1": ["DogID", "Bread Name", "Sex","Alteration Status", "MicrochipID", "Surrender Date"], "detail_data2": ["DogID", "Bread Name", "Sex","Alteration Status", "MicrochipID", "Surrender Date", "Adoption Date","Days in Shelter", "Total Expense"]}
+
+    var summaryTable = summarytabulate(summary_data, summary_columns, "#table1", "#table2", details, detail_columns);
+
+
+    </script>
+
+  </body>
+</html>

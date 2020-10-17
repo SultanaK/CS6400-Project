@@ -1,0 +1,49 @@
+
+{%extends "layout.html" %}
+
+{% block content%}
+  <!-- <style>
+    table, th, td {
+      border: 1px solid black;
+    }
+  </style> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='volunteer_lookup.css') }}">
+   <center><h1 style="color:Tomato;">New Adoption Application Has Been Successfully Added!</h1></center>
+<body>
+
+	<center><table class="myTable" id="myTable">
+        <thead>
+        <tr>
+        <th>Application ID</th>
+        <th>Last Name</th>
+        <th>First Name</th>
+        <th>Phone Number</th>
+        <th>Email</th>
+        <th>Street</th>
+        <th>City</th>
+        <th>Zip Code</th>
+        <th>State</th>
+        <th>Date</th>
+        <th>Co-Applicant First Name</th>
+        <th>Co-Applicant Last Name</th>
+        </tr>
+        {% for row in application %}
+        <tr>
+        {% for d in row %}
+        <td>{{d}}</td>
+        {% endfor %}
+        <!--<td><a href="/viewDogDetails/{{row[0]}}"> View Dog Detials </a></td>-->
+        </tr>
+        {% endfor %}
+</thead>
+</table>
+</center>
+	
+  <div style="width: 350px; margin:50px auto auto auto; text-align: center; border:groove; background-color: lightgreen;border-radius: 16px;">
+      <h2><a href={{url_for('viewDogDashBoard')}}>Go Back to Dog Dashboard</a></h2>
+  </div>
+
+</body>
+{% endblock content%}

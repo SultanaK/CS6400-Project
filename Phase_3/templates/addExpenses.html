@@ -1,0 +1,46 @@
+{%extends "layout.html" %}
+
+{% block content%}
+<center><h1 style="color:Tomato;">{{msg}}</h1></center>
+    <div style="height:300px; width:400px;margin: auto auto; background-color:SKYBLUE;border-radius: 16px; text-align: left;">
+        <center><h1 style="padding-top: 25px;">Add Expenses</h1></center>
+
+
+        <div class="content-section">
+        {% from "_formhelpers.html" import render_field %}
+        <form method="post" action="">
+            <dl style="padding-left: 90px;">
+                <!-- {{ render_field(form.date) }} -->
+                <label for="date">Date</label>
+                <input type="date" id="date" name="date" required>
+                {{ render_field(form.description) }}
+                {{ render_field(form.amount) }}
+                {{ render_field(form.vendor_name) }}
+            </dl>
+            <center><div class = "form-group">
+                {{form.submit(class="btn btn-outline-info")}}            
+            </div></center>
+        </form>
+        </div>
+
+
+        <center><table>
+            <tr>
+            <td>
+            <div style="width: 350px; margin-top:100px; text-align: center; border:groove;background-color:plum;border-radius: 16px;">
+              <h2><a href="/viewDogDetails/{{dogID}}">Go Back to View Dog Details</a></h2>
+            </div>
+            </td>
+            </tr>
+            <tr>
+            <td>
+            <div style="width: 350px; margin-top:10px; text-align: center; border:groove;background-color:SPRINGGREEN;border-radius: 16px;">
+              <h2><a href={{url_for('viewDogDashBoard')}}>Go Back to Dog Dashboard</a></h2>
+            </div>
+            </td>
+            </tr>
+        </table></center>
+        
+    </div>
+{% endblock content%}
+

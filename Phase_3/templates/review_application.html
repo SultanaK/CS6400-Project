@@ -1,0 +1,77 @@
+<html>
+  <head>
+    <title> Adoption Application Review </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='phase3.css') }}">
+  </head>
+
+  <body>
+
+  <form name="reviewForm" action="" method="post" onsubmit="">
+
+    <div class="container" >
+
+      <div style="width: 250px; position:absolute; text-align: center; border:groove; background-color: lightgreen;border-radius: 16px;">
+         <h2><a href={{url_for('viewDogDashBoard')}}>Go Back to Dog Dashboard</a></h2>
+      </div>
+
+      <div style="width: 600px; text-align: center; margin: auto auto 37 auto">
+        <center><h1>Pending Adoption Applications</h1></center>
+      </div>
+
+      <table>
+        <thead>
+        <tr>
+            <th>No.</th>
+            <th>Applicant Email</th>
+            <th>Applicant First Name</th>
+            <th>Applicant Last Name</th>
+            <th>Date</th>
+            <th>Co-applicant First Name</th>
+            <th>Co-applicant Last Name</th>
+            <th>Street</th>
+            <th>City</th>
+            <th>State</th>
+            <th>Zip Code</th>
+            <th>Phone#</th>
+            <th>Action</th>
+        </tr>
+        </thead>
+        <tbody>
+            {% for row in output_data %}
+                <tr>
+                    <td>{{row[0]}}</td>
+                    <td>{{row[1]}}</td>
+                    <td>{{row[2]}}</td>
+                    <td>{{row[3]}}</td>
+                    <td>{{row[4]}}</td>
+                    <td>{{row[5]}}</td>
+                    <td>{{row[6]}}</td>
+                    <td>{{row[7]}}</td>
+                    <td>{{row[8]}}</td>
+                    <td>{{row[9]}}</td>
+                    <td>{{row[10]}}</td>
+                    <td>{{row[11]}}</td>
+                    <td>
+                        <input type="radio" id="pend" name="bt_{{row[0]}}" value="pending" checked="checked">
+                        <label for="approve">Pending</label><br>
+                        <input type="radio" id="approve" name="bt_{{row[0]}}" value="approved">
+                        <label for="approve">Approve</label><br>
+                        <input type="radio" id="reject" name="bt_{{row[0]}}" value="rejected">
+                        <label for="reject">Reject</label><br>
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+      </table>
+
+      <center><h1 style="color:Tomato;">{{msg}}</h1></center>
+
+      <div style="width: 100px; margin: 0 auto;">
+      <button id="btnReview" type="submit" name="button" value="submit">Save</button>
+      </div>
+
+    </div>
+  </form>
+  </body>
+</html>

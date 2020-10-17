@@ -1,0 +1,73 @@
+{%extends "layout.html" %}
+
+{% block content%}
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='volunteer_lookup.css') }}">
+  <body>
+    <div class="container" >
+	<div style="width: 250px; position:absolute; text-align: center; border:groove; background-color: lightgreen;border-radius: 16px;">
+         <h2><a href={{url_for('viewDogDashBoard')}}>Go Back to Dog Dashboard</a></h2>
+        </div>
+	    
+        <h1><center>Search Applicant</center></h1>
+
+	  <form class="example" method="post" action=""  style="margin:auto;max-width:600px">
+	      <input type="text" placeholder="Search Applicant by Email" name="email">
+	      <button type="submit"><i class="fa fa-search"></i></button>
+	  </form>
+       <center>
+	       	<table class="myTable" id="myTable">
+		        <thead>
+			        <tr>
+			        	<th>First Name</th>
+			            <th>Last Name</th>
+			            <th>Phone Number</th>
+			            <th>Email</th>
+			            <th>Street</th>
+			            <th>City</th>
+			            <th>Zip Code</th>
+			            <th>State</th>
+			            <!-- <th>Application Date</th>
+			            <th>Co-Applicant Last Name</th>
+			            <th>Co-Applicant First Name</th> -->
+			        </tr>
+		        	{% for row in application %}
+			        <tr>
+				       <tr>
+					        {% for d in row %}
+					        <td>{{d}}</td>
+					        {% endfor %}
+					    </tr>
+					<!-- {% if application|length %}
+						<form class="example" method="post" action="/addApplication"  style="margin:auto;max-width:600px">
+				    		<label for="fname">Application Date:</label><br>
+					      	<input type="text" name="date">
+					      	<p></p>
+					      	<label for="fname">Application Co-Applicant First Name:</label><br>
+					      	<input type="text" name="fname">
+					      	<p></p>
+					      	<label for="fname">Application Co-Applicant Last Name:</label><br>
+					      	<input type="text" name="lname">
+					      	<p></p>
+					      	<input type="submit" value="Submit">
+					  </form>
+					{% endif%} -->
+						<td><a href="/addApplication/{{row[3]}}"> Add Application </a></td>
+	                    <!-- <td>{{row[11]}}</td>
+	                    <td>{{row[12]}}</td>
+	                    <td>{{row[13]}}</td> -->
+			        {% endfor %}
+			     	</tr>
+			 	</thead>
+	        </table>
+    </center>
+    </div>
+
+    <center><h1 style="color:Tomato;">{{msg}}</h1></center>
+    {% if msg =="Email is not found." %}
+    <div>
+       <center><a href="/addApplicant">Click here to enter new applicant.</a></center>
+     </div>
+    {% endif %}
+{% endblock content%}

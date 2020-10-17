@@ -1,0 +1,37 @@
+<html>
+  <head>
+    <title>Expense Analysis Report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='expense_report.css') }}">
+  </head>
+
+  <body>
+
+      <div style="width: 250px; position: absolute; text-align: center; border:groove; background-color: lightgreen;border-radius: 16px;">
+         <h2><a href={{url_for('reports')}}>Go Back to Reports</a></h2>
+      </div>
+
+      <center><h1 style="padding-bottom:24px;">Expense Analysis Report</h1></center>
+
+      <form name="expenseForm" action="" method="post" >
+          <div style="width: 400px; margin-left:auto;margin-right:auto;">
+          <table>
+            <thead>
+            <tr>
+                <th style="text-align:left;">Vendor Name</th>
+                <th>Total Spent</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                    <tr>
+                        <td style="text-align:left;">{{row[0]}}</td>
+                        <td>{{row[1]}}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+          </div>
+      </form>
+  </body>
+</html>

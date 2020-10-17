@@ -1,0 +1,47 @@
+<html>
+  <head>
+    <title>Monthly Adoption Report</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='expense_report.css') }}">
+  </head>
+
+  <body>
+  <div style="width: 250px; position: absolute; text-align: center; border:groove; background-color: lightgreen;border-radius: 16px;">
+      <h2><a href={{url_for('reports')}}>Go Back to Reports</a></h2>
+  </div>
+
+  <center><h1>Monthly Adoption Report</h1></center>
+
+  <form name="adoption_report" action="" method="post" >
+      <div style="width: 1200px; margin-left:auto;margin-right:auto;margin-top:35px;">
+          <table>
+            <thead>
+            <tr>
+                <th>Month</th>
+                <th>Breeds</th>
+                <th>Number of dogs <br>surrendered</th>
+                <th>Number of dogs <br>adopted</th>
+                <th>Total Adoption Fees</th>
+                <th>Total Expenses</th>
+                <th>Profit</th>
+            </tr>
+            </thead>
+            <tbody>
+                {% for row in data %}
+                    <tr>
+                        <td>{{row[0]}}</td>
+                        <td>{{row[1]}}</td>
+                        <td>{{row[2]}}</td>
+                        <td>{{row[3]}}</td>
+                        <td>${{ "%.2f"|format(row[4]) }}</td>
+                        <td>${{ "%.2f"|format(row[5]) }}</td>
+                        <td>${{ "%.2f"|format(row[6]) }}</td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+          </table>
+      </div>
+  </form>
+
+  </body>
+</html>
